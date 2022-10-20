@@ -15,9 +15,9 @@ function cargarEventListeners() {
 
     // Muestra los productos de Local Storage
     document.addEventListener('DOMContentLoaded', () => {
-        productos = JSON.parse(localStorage.getItem('carrito')) || [];
+        productos = JSON.parse( localStorage.getItem('carroC') ) || [];
 
-        carritoHTML();
+        // carritoHTML ();
     })
 
 
@@ -25,38 +25,72 @@ function cargarEventListeners() {
     botonVaciar.addEventListener('click', () => {
         productos = [];
 
-        limpiarHTML(); // Eliminamos todo el HTML
+        // limpiarHTML(); // Eliminamos todo el HTML
     })
 }
 
 
 // Funciones
-function agregarProducto(e) {
+function agregarProducto (e) {
     e.preventDefault();
 
 
-    if (e.target.classList.contains('agregaralCarro')) {
+    if (e.target.classList.contains('agregaralCarro') ) {
         const artiSeleccionado = e.target.parentElement.parentElement;
-        datosArticuloLeeo(artiSeleccionado);
+        datosArticuloLeeo (artiSeleccionado);
     }
 
 }
 
 // Elimina prodcuto del carro de compra
-function eliminarProducto(e) {
-    if (e.target.classList.contains('producto-borrar')) {
-        const articulosId = e.target.getAttribute('data-id');
+ function eliminarProducto(e) {
+     if (e.target.classList.contains('producto-borrar')) {
+         const articulosId = e.target.getAttribute('data-id');
 
-        // Saco del arreglo de articulosId por el data-id
-        productos = productos.filter(articulo => articulo.id !== articulosId);
+
+//         // Saco del arreglo de articulosId por el data-id
+       productos = productos.filter(articulo => articulo.id !== articulosId);
 
         carritoHTML(); // Iterar sobre el carrito 
     }
 }
+//==========PRUBO ESTA FORMA===== 
+//   function eliminarProducto (e)  {
+    
+//     e.preventDefault();
+//     let articulo, articulosId;
+//     if (e.target.classList.contains('producto-borrar')) {
+//         e.target.parentElement.parentElement.remove();
+//         articulo = e.target.parentElement.parentElement;
+//         articulosId = articulo.querySelector('a').getAttribute('data-id');
+//     }
+//     this.eliminoProductoLocalStorage (articulosId);
+//     this.totalCalcular();
+// }
+//almaceno en Local S
+function guardarProductosLS(articulo) {
+    productos = this.obtenerArtiLocalStorage();
+    productos.push(articulo);
+    localStorage.setItem('productos',JSON.stringify(productos));
+
+}
+
+function obtenerArtiLocalStorage ( ){
+    let articulosLocalS;
+    if (localStorage.getItem('articulo') === null ){
+      articulosLocalS = [];
+    }
+//     else{ articulosLocalS = JSON.parse(localStorage.getItem('articulo'));
+// } return articulosLocalS;
+else{ articulosLocalS = JSON.parse(localStorage.getItem('productos'));
+// } return articulosLocalS ;
+
+
+}
 
 // Lee el contenido del HTML al que le dimos click 
-function datosArticuloLeeo(articulo) {
-    // console.log(articulo);
+ function datosArticuloLeeo(articulo) { 
+//     // console.log(articulo);
 
     // Crear un objeto con el contenido del articulo actual
     const productosInfo = {
@@ -64,18 +98,19 @@ function datosArticuloLeeo(articulo) {
         titulo: articulo.querySelector('h4').textContent,
         precio: articulo.querySelector('.precio').textContent,
         id: articulo.querySelector('a').getAttribute('data-id'),
-        cantidad: 1, }
+        cantidad: 1,
+    }
 
-    let articulosLocalS;
-    articulosLocalS = this.obtenerArtiLocalStorage ();
-    articulosLocalS.forEach(function (articulosLocalS){
-        if(articulosLocalS.id === productosInfo){
-            articulosLocalS = articulosLocalS.id;
+    let productos;
+    productos = this.obtenerArtiLocalStorage();
+    productos.forEach(function (productos) {
+        if (productos.id === productosInfo) {
+            productos = productos.id;
         }
-    });       
-            
- }
-    
+    });
+
+}
+
 
 // me fijo si un producto ya lo habia tomado en el carro
 const existeProduc = productos.some(articulo => articulo.id === productos.id);
@@ -99,27 +134,27 @@ console.log(productos);
 carritoHTML();
 
 //Calculo precios
-totalCalcular () ;{
-    let articulosLocalS; 
+totalCalcular(); {
+    let articulosLocalS;
     let total = 0;
-    articulosLocalS = this.obtenerArtiLocalStorage ();
-    for(let i = 0; i < articulosLocalS.length; i++ ){
+    articulosLocalS = this.obtenerArtiLocalStorage();
+    for (let i = 0; i < articulosLocalS.length; i++) {
         let elementos = Number(articulosLocalS[i].precio * articulosLocalS[i].cantidad);
         total = total + elementos;
     }
     document.getElementById('total').value = "S/." + total.toFixed(2);
 }
-eventoO (e) ; {
-e.preventDefault ();
-let id, cantidad, articulo , articulosLocalS;
-if (e.target.classList.contains('cantidad')){
-     articulo  = e.target.parentElement.parentElement;
-     id = articulo.querySelector('a').getAttribute('data-id');
-     cantidad = articulo.querySelector('input').value;
-     articulosLocalS = this.obtenerArtiLocalStorage();
-     
-     
-}
+eventoO(e); {
+    e.preventDefault();
+    let id, cantidad, productos, articulosLocalS;
+    if (e.target.classList.contains('cantidad')) {
+        articulo = e.target.parentElement.parentElement;
+        id = articulo.querySelector('a').getAttribute('data-id');
+        cantidad = articulo.querySelector('input').value;
+         articulosLocalS = this.obtenerArtiLocalStorage();
+
+
+    }
 }
 
 
@@ -153,7 +188,7 @@ function carritoHTML() {
 }
 
 function sincronizarStorage() {
-    localStorage.setItem('carrito', JSON.stringify(productos));
+    localStorage.setItem('carroC', JSON.stringify(productos));
 }
 
 // Elimina los cursos del tbody
@@ -162,4 +197,4 @@ function limpiarHTML() {
     while (contenedorCarrito.firstChild) {
         contenedorCarrito.removeChild(contenedorCarrito.firstChild)
     }
-}
+}}
