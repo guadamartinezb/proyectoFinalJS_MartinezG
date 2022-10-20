@@ -1,0 +1,17 @@
+body{
+    background-color: #f5f5dc  ;
+   
+}
+.subtitulofarm{
+    text-align: center;
+    color: rgb(239, 163, 224);
+    font-size: 50px;
+    font-weight: bold;
+    
+
+}
+.cardProductos {
+ color: rgb(239, 163, 224);
+ text-align: center;
+ margin-top: 5px;
+}
