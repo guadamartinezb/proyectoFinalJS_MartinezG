@@ -2,7 +2,7 @@
 const carrito = document.querySelector('#carroC');
 const contenedorCarrito = document.querySelector('#listproduccarrito tbody');
 const botonVaciar = document.querySelector('#vaciarCarro');
-const productoslist = document.querySelector('#productoslist');
+const productoslist = document.querySelector('#productoslista');
 let productos = [];
 
 cargarEventListeners();
@@ -17,7 +17,7 @@ function cargarEventListeners() {
     document.addEventListener('DOMContentLoaded', () => {
         productos = JSON.parse( localStorage.getItem('carroC') ) || [];
 
-        // carritoHTML ();
+         carritoHTML();
     })
 
 
@@ -25,7 +25,7 @@ function cargarEventListeners() {
     botonVaciar.addEventListener('click', () => {
         productos = [];
 
-        // limpiarHTML(); // Eliminamos todo el HTML
+         limpiarHTML(); // Eliminamos todo el HTML
     })
 }
 
@@ -37,10 +37,21 @@ function agregarProducto (e) {
 
     if (e.target.classList.contains('agregaralCarro') ) {
         const artiSeleccionado = e.target.parentElement.parentElement;
-        datosArticuloLeeo (artiSeleccionado);
+        this.datosArticuloLeeo(artiSeleccionado);
     }
-
 }
+    // Toastify({
+
+    //     text: "El Producto agregado correctamente",
+        
+    //     duration: 3000
+    //     // gravedad : "superior izquierda" ,  
+        
+    //    } , 
+    //    onClick : function ( ) { }  
+    //   ) . mostrarbrindis ( ) ;
+        
+
 
 // Elimina prodcuto del carro de compra
  function eliminarProducto(e) {
@@ -53,7 +64,22 @@ function agregarProducto (e) {
 
         carritoHTML(); // Iterar sobre el carrito 
     }
+    Swal.fire({
+        title: 'Deseas borrar producto?',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Borrar',
+        denyButtonText: `No borrar`,
+      }).then((result) => {
+       
+        if (result.isConfirmed) {
+          Swal.fire('Borrado!', '', 'success')
+        } else if (result.isDenied) {
+          Swal.fire('Cambios no guardados', '', 'info')
+        }
+      })
 }
+
 //==========PRUBO ESTA FORMA===== 
 //   function eliminarProducto (e)  {
     
@@ -142,7 +168,7 @@ totalCalcular(); {
         let elementos = Number(articulosLocalS[i].precio * articulosLocalS[i].cantidad);
         total = total + elementos;
     }
-    document.getElementById('total').value = "S/." + total.toFixed(2);
+    document.getElementById('total').carritoHTML = "S/." + total.toFixed(2);
 }
 eventoO(e); {
     e.preventDefault();
@@ -167,7 +193,7 @@ function carritoHTML() {
     productos.forEach(articulo => {
         const { imagen, titulo, precio, cantidad, id } = articulo;
         const row = document.createElement('tr');
-        row.innerHTML = `
+        row.carritoHTML = `
             <td> <img src="${imagen}" width="100"></td>
             <td>${titulo}</td>
             <td>${precio}</td>
